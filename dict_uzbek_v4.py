@@ -196,6 +196,7 @@ def schedule_message(update: Update, context: CallbackContext):
     schedule_times = [(time(11, 0, 0), generate_random_words_message),
                       (time(17, 0, 0), generate_random_words_message)]
 
+    
     for scheduled_time, message_func in schedule_times:
         # Check if a job for this time already exists
         existing_jobs = context.job_queue.get_jobs_by_name(str(chat_id))
@@ -213,7 +214,7 @@ def schedule_message(update: Update, context: CallbackContext):
         # Schedule the job
         context.job_queue.run_once(send_scheduled_message, delay, context=(chat_id, message_func, scheduled_time), name=str(chat_id))
 
-    # Send a confirmation message
+    # Send a confirmation or information message
     if existing_jobs:
         update.message.reply_text("Siz allaqachon har kuni so'zlar olishni rejalashtirgansiz.")
     else:
